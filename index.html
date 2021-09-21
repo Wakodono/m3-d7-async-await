@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
+
+</head>
+
+<body>
+
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <select id="dropdown" style="height: 70px; width: 200px">
+                <option>Select one ...</option>
+                <option value="name">Name</option>
+                <option value="username">Username</option>
+                <option value="email">E-mail</option>
+            </select>
+        </div>
+        <ul id="ul" class="list-group">
+            <!-- <li class="list-group-item">An item</li> -->
+        </ul>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+
+    <script>
+        window.onload = () => {
+            fetchUsers()
+            const dropdown = document.getElementById("dropdown")
+            dropdown.addEventListener("change", (event) => {
+                fetchUsers(event.target.value)
+            })
+        }
+        let url = "https://jsonplaceholder.typicode.com/users"
+
+        const fetchUsers = async (option) => {
+
+            try {
+                const fetchUrl = await fetch(url)
+                const fetchData = await fetchUrl.json()
+                console.log("Result of fetch: ", fetchData)
+
+                const ul = document.getElementById("ul")
+                console.log("Options", option)
+
+                let dataMap = fetchData.map((user) => user[option]
+                )
+
+                console.log("mapping", dataMap)
+
+                ul.innerHTML = ""
+
+                dataMap.forEach((element) => {
+                    if (option) {
+                        ul.innerHTML += `<li class="list-group-item">
+                                ${option}: ${element},
+                               </li>`
+                    }
+                })
+            } catch (error) {
+                console.log("Something went wrong, error:", error)
+            }
+        }
+    </script>
+
+    </script>
+</body>
+
+</html>
